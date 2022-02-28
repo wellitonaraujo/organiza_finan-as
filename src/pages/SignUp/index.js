@@ -1,30 +1,40 @@
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-
+import React, { useContext, useState } from 'react';
 import { 
   Background, 
   Container, 
-  Logo, 
   AreaInput, 
   Input, 
   SubmitButton, 
   SubmitText,
-  Link,
-  LinkText
-} from './styles';
+} from '../SignIn/styles';
+
+import { AuthContext } from '../../contexts/auth';
 
 
-export default function SignIn() {
-
-  const navigation = useNavigation()
-
+export default function SignUp() {
+   
+  const { signUp } = useContext(AuthContext)
+  const [ name, setName ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
+
+  function hanleSignUp(){
+    signUp(name, email, password)
+  }
 
  return (
    <Background>
      <Container>
-      <Logo source={require('../../assets/Logo.png')}/>
+
+      <AreaInput>
+        <Input
+          placeholder="Nome"
+          autoCorrect={false}
+          autoCapitalize="none"
+          value={name}
+          onChangeText={ (text) => setName(text) }
+        />
+      </AreaInput>
 
       <AreaInput>
         <Input
@@ -46,14 +56,9 @@ export default function SignIn() {
         />
       </AreaInput>
 
-      <SubmitButton>
+      <SubmitButton onPress={hanleSignUp}>
         <SubmitText>Acessar</SubmitText>
       </SubmitButton>
-
-      <Link onPress={ () => navigation.navigate('SignUp')}>
-        <LinkText>Criar uma conta</LinkText>
-      </Link>
-
 
      </Container>
    </Background>
